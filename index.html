@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Maschiene</title>
+  <link rel="stylesheet" href="maincss.css">
+  <style>
+    
+  </style>
+  <script>
+    function check() {
+      var passcodeInput = document.getElementById("passcode").value;
+      var correctPasscode = "90"; 
+
+      if (passcodeInput === correctPasscode) {
+        document.body.classList.add("darkened");
+        document.querySelector(".login-container").style.display = "none";
+        document.querySelector(".content").style.display = "block";
+      } else {
+        alert("Falsches Passwort");
+      }
+    }
+    
+
+    document.addEventListener("DOMContentLoaded", function() {
+      var accordions = document.getElementsByClassName("accordion-video");
+      for (var i = 0; i < accordions.length; i++) {
+        accordions[i].addEventListener("click", function() {
+          this.classList.toggle("active");
+          var panel = this.nextElementSibling;
+          panel.classList.toggle("open");
+        });
+      }
+
+
+      enableDraggableScroll('draggable-container');
+
+
+      const container = document.getElementById('draggable-container');
+      container.addEventListener('scroll', updateCenteredVideo);
+      updateCenteredVideo();
+    });
+
+    function enableDraggableScroll(containerId) {
+      const container = document.getElementById(containerId);
+      let isDown = false;
+      let startX;
+      let scrollLeft;
+
+      container.addEventListener('mousedown', (e) => {
+        isDown = true;
+        container.classList.add('active');
+        startX = e.pageX - container.offsetLeft;
+        scrollLeft = container.scrollLeft;
+      });
+      container.addEventListener('mouseleave', () => {
+        isDown = false;
+        container.classList.remove('active');
+      });
+      container.addEventListener('mouseup', () => {
+        isDown = false;
+        container.classList.remove('active');
+      });
+      container.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - container.offsetLeft;
+        const walk = (x - startX) * 2;
+        container.scrollLeft = scrollLeft - walk;
+      });
+    }
+    function updateCenteredVideo() {
+      const container = document.getElementById('draggable-container');
+      const videos = container.querySelectorAll('.video-teil');
+      let containerRect = container.getBoundingClientRect();
+      let containerCenter = containerRect.left + containerRect.width / 2;
+      let closestDistance = Infinity;
+      let centeredElement = null;
+      
+      videos.forEach(video => {
+        let rect = video.getBoundingClientRect();
+        let videoCenter = rect.left + rect.width / 2;
+        let distance = Math.abs(containerCenter - videoCenter);
+        if(distance < closestDistance) {
+          closestDistance = distance;
+          centeredElement = video;
+        }
+        video.classList.remove('centered');
+      });
+      
+      if (centeredElement) {
+        centeredElement.classList.add('centered');
+      }
+    }
+  </script>
+</head>
+<body>
+  <header>
+    <div class="titel">MUSCULUS DELTOIDEUS</div>
+    <div class="untertitel">freie übungen</div>
+  </header>
+
+  <div class="login-container">
+    <h2>Trage das Passwort ein</h2>
+    <input type="password" id="passcode" placeholder="Passwort" />
+    <button onclick="check()">Enter</button>
+  </div>
+
+  <div class="content">
+    <h2>Wähle aus was du schauen willst</h2>
+    
+ 
+    <div id="draggable-container">
+      <div class="video-grid">
+        
+        <div class="video-teil">
+          <p>Grundübung(Pike Push-Ups)</p>
+          <video controls>
+            <source src="grund.mp4" type="video/mp4" />
+          </video>
+          <button class="accordion-video">Mehr Details</button>
+          <div class="panel-video">
+            <p><span class="Bold">Technikknotenpunkte:</span><br>
+              - Hände schulterbreit platzieren<br>
+              - Hüfte hoch, um den Winkel zu optimieren<br>
+              - Kontrollierte Bewegung nach unten<br>
+              - Langsame, explosive Rückkehr in die Ausgangsposition<br>
+              - Rumpf angespannt halten<br>
+              - Blick auf die Hände richten<br>
+              - Beim einatmen ablassen<br>
+              - Beim ausatmen hochdruecken</p>
+          </div>
+        </div>
+      
+        <div class="video-teil">
+          <p>progression</p>
+          <video controls>
+            <source src="progression.mp4" type="video/mp4" />
+          </video>
+          <button class="accordion-video">Mehr Details</button>
+          <div class="panel-video">
+            <p><br>
+              - Füße auf eine Erhöhung stellen<br>
+              - Belastung auf Schultern und Triceps verstärken<br>
+              - Winkel α zwischen Oberkörper und Boden reduzieren<br>
+              - Ziel: Handstand Push-ups/ α=180°</p>
+          </div>
+        </div>
+        
+        <div class="video-teil">
+          <p>Regression</p>
+          <video controls>
+            <source src="regression.mp4" type="video/mp4" />
+          </video>
+          <button class="accordion-video">Mehr Details</button>
+          <div class="panel-video">
+            <p><br>
+              - Winkel α vergroessern<br>
+              - Langsame Bewegungsausführung priorisieren<br>
+              - Winkel anpassen für bessere Kontrolle</p>
+          </div>
+        </div>
+        
+        <div class="video-teil">
+          <p>Fehler bei Pike Push-ups</p>
+          <video controls>
+            <source src="fehler.mp4" type="video/mp4" />
+          </video>
+          <button class="accordion-video">Mehr Details</button>
+          <div class="panel-video">
+            <p><br>Häufige Fehler:<br>
+              - Hüfte nicht hoch genug<br>
+              - Ellenbogen nach außen statt nach hinten<br>
+              - Zu schnelles Absenken<br>
+              - Fehlende Rumpfspannung<br>
+            - Beine angewinkelt</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
